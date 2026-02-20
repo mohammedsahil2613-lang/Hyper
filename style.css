@@ -1,80 +1,81 @@
 body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background: linear-gradient(135deg, #6b73ff, #000dff);
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+margin: 0;
+font-family: 'Orbitron', sans-serif;
+background: radial-gradient(circle at top left, #0d0d0d, #111111 80%);
+color: #fff;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+overflow-x: hidden;
 }
 
 header {
-  text-align: center;
-  padding: 30px 20px;
-  background: rgba(0,0,0,0.2);
-  backdrop-filter: blur(8px);
+text-align: center;
+padding: 30px 20px;
+color: #00fff7;
+text-shadow: 0 0 10px #00fff7;
 }
 
-header h1 { font-size: 2.5rem; }
-header p { font-size: 1.2rem; color: #e0e0ff; }
-
 .container {
-  flex: 1;
-  max-width: 720px;
-  margin: 40px auto;
-  background: rgba(255,255,255,0.05);
-  padding: 25px;
-  border-radius: 15px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+flex: 1;
+max-width: 720px;
+margin: 40px auto;
+padding: 25px;
+perspective: 1500px;
 }
 
 input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  border: none;
-  font-size: 16px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+width: 100%;
+padding: 12px;
+margin-bottom: 15px;
+border-radius: 12px;
+border: none;
+background: rgba(255,255,255,0.05);
+color: #00fff7;
+font-size: 16px;
 }
 
-input::placeholder, textarea::placeholder { color: #ccc; }
+input::placeholder, textarea::placeholder { color: #00d9e0; }
 
 button {
-  width: 100%;
-  padding: 14px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #fff;
-  background: #ff4b2b;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+width: 100%;
+padding: 16px;
+font-size: 18px;
+font-weight: bold;
+color: #fff;
+background: linear-gradient(45deg, #ff00ff, #00ffff);
+border: none;
+border-radius: 15px;
+cursor: pointer;
+box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
+transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #ff416c;
-  transform: translateY(-3px);
+transform: translateY(-3px) rotateX(5deg);
+box-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff;
 }
 
 .output {
-  margin-top: 25px;
-  background: rgba(0,0,0,0.3);
-  padding: 20px;
-  border-radius: 12px;
-  min-height: 100px;
-  transition: 0.3s;
-  font-size: 16px;
+margin-top: 25px;
+min-height: 150px;
+background: rgba(0,0,0,0.25);
+border-radius: 20px;
+padding: 20px;
+box-shadow: 0 0 20px #00fff7 inset;
+font-size: 16px;
+transform-style: preserve-3d;
+}
+
+.paypal-btn {
+margin-top: 20px;
 }
 
 footer {
-  text-align: center;
-  padding: 15px;
-  background: rgba(0,0,0,0.2);
-  backdrop-filter: blur(8px);
-  font-size: 14px;
-  color: #ccc;
+text-align: center;
+padding: 15px;
+background: rgba(0,0,0,0.2);
+color: #00d9e0;
+font-size: 14px;
+text-shadow: 0 0 5px #00d9e0;
 }
