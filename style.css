@@ -1,54 +1,80 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f0f2f5;
-  color: #333;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
-  padding: 0;
+  background: linear-gradient(135deg, #6b73ff, #000dff);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
-  background: #0052cc;
-  color: white;
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 30px 20px;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(8px);
 }
 
-main {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+header h1 { font-size: 2.5rem; }
+header p { font-size: 1.2rem; color: #e0e0ff; }
+
+.container {
+  flex: 1;
+  max-width: 720px;
+  margin: 40px auto;
+  background: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 15px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
 }
 
-textarea {
+input, textarea {
   width: 100%;
-  height: 120px;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  border: none;
+  font-size: 16px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
 }
+
+input::placeholder, textarea::placeholder { color: #ccc; }
 
 button {
-  background: #0052cc;
-  color: white;
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background: #ff4b2b;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-  background: #003d99;
+  background: #ff416c;
+  transform: translateY(-3px);
 }
 
-#output {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 5px;
+.output {
+  margin-top: 25px;
+  background: rgba(0,0,0,0.3);
+  padding: 20px;
+  border-radius: 12px;
   min-height: 100px;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background: rgba(0,0,0,0.2);
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  color: #ccc;
 }
