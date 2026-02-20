@@ -1,27 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hyper-Niche AI Tool 2050</title>
-<link rel="stylesheet" href="style.css">
+  <title>Hyper-Niche AI Tool</title>
 </head>
 <body>
-  <div class="container">
-    <h1>🚀 Hyper-Niche AI Tool</h1>
-    <p>Create futuristic viral content instantly & pay automatically!</p>
-    
-    <input type="text" id="keyInput" placeholder="Enter your free key">
-    <input type="text" id="promptInput" placeholder="Enter niche / topic...">
-    
-    <button id="generateBtn">Generate Content</button>
-    
-    <div id="output"></div>
-    
-    <button id="paypalBtn">Pay with PayPal</button>
-  </div>
+  <h1>Hyper-Niche AI Tool</h1>
+  <p>Create futuristic viral content instantly & pay automatically!</p>
 
-<script src="script.js"></script>
+  <!-- Topic input -->
+  <input type="text" id="topicInput" placeholder="Enter niche/topic" />
+
+  <!-- AI button -->
+  <button id="generateBtn">Generate Content</button>
+
+  <!-- Output area -->
+  <div id="output">✨</div>
+
+  <!-- PayPal button -->
+  <button id="paypalBtn">Pay with PayPal</button>
+
+  <script>
+    const generateBtn = document.getElementById('generateBtn');
+    const topicInput = document.getElementById('topicInput');
+    const output = document.getElementById('output');
+    const paypalBtn = document.getElementById('paypalBtn');
+
+    // AI button: calls your /api/generate
+    generateBtn.addEventListener('click', async () => {
+      const topic = topicInput.value;
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic })
+      });
+      const data = await response.json();
+      output.innerText = data.content; // shows AI content
+    });
+
+    // PayPal button (sandbox)
+    paypalBtn.addEventListener('click', async () => {
+      const res = await fetch('/api/create-order', { method: 'POST' });
+      const data = await res.json();
+      alert(`Sandbox Order Created!\nOrderID: ${data.orderID}`);
+    });
+  </script>
 </body>
 </html>
-
