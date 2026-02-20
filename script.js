@@ -48,3 +48,16 @@ generateBtn.addEventListener("click", async () => {
 paypalBtn.addEventListener("click", () => {
   alert("Redirect to PayPal flow (demo)!");
 });
+// Free key
+response = await fetch("/api/generate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt })
+});
+
+// Paid flow
+response = await fetch("/api/verifyPayment", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt })
+});
