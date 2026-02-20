@@ -1,53 +1,50 @@
 const FREE_USER_KEY = "mohammedsahil2026";
 
-document.getElementById("generate").addEventListener("click", async () => {
-const prompt = document.getElementById("prompt").value.trim();
-const userKey = document.getElementById("userKey").value.trim();
+const keyInput = document.getElementById("keyInput");
+const promptInput = document.getElementById("promptInput");
+const generateBtn = document.getElementById("generateBtn");
 const output = document.getElementById("output");
+const paypalBtn = document.getElementById("paypalBtn");
 
-if(!prompt) {
-alert("Enter a niche/topic!");
-return;
-}
+generateBtn.addEventListener("click", async () => {
+  const userKey = keyInput.value.trim();
+  const prompt = promptInput.value.trim();
 
-// Free key override
-if(userKey === FREE_USER_KEY) {
-output.innerHTML = `<div class="output-card">✨ Free futuristic AI content for: "${prompt}"</div>`;
-return;
-}
+  if (!prompt) {
+    output.innerHTML = "<p>⚠ Please enter a topic!</p>";
+    return;
+  }
 
-output.innerHTML = "<p>Checking payment...</p>";
+  output.innerHTML = "<p>Generating futuristic content...</p>";
 
-try {
-const response = await fetch("/.netlify/functions/verifyPayment", {
-method: "POST",
-headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ prompt })
+  try {
+    let response;
+    
+    // Free key uses OpenAI API too, but you can limit usage
+    if (userKey === FREE_USER_KEY) {
+      response = await fetch("/.netlify/functions/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+    } else {
+      // Paid key flow
+      response = await fetch("/.netlify/functions/verifyPayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+    }
+
+    const data = await response.json();
+    output.innerHTML = `<div class="output-card">✨ ${data.result}</div>`;
+  } catch(err) {
+    console.error(err);
+    output.innerHTML = "<p>⚠ Something went wrong.</p>";
+  }
 });
 
-const data = await response.json();
-
-if(data.status === "paid") {
-output.innerHTML = `<div class="output-card">🚀 Paid futuristic AI content for: "${prompt}"</div>`;
-} else {
-output.innerHTML = "<p>💰 Please pay first to generate content.</p>";
-}
-} catch(err) {
-output.innerHTML = "<p>⚠ Something went wrong.</p>";
-console.error(err);
-}
+// PayPal demo button (replace with your real integration)
+paypalBtn.addEventListener("click", () => {
+  alert("Redirect to PayPal flow (demo)!");
 });
-
-// PayPal button
-paypal.Buttons({
-createOrder: function(data, actions) {
-return actions.order.create({
-purchase_units: [{ amount: { value: '5.00' } }]
-});
-},
-onApprove: function(data, actions) {
-return actions.order.capture().then(function(details) {
-alert('Payment completed by ' + details.payer.name.given_name + " 🎉");
-});
-}
-}).render('#paypal-button-container');
