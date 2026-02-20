@@ -39,3 +39,17 @@ generateBtn.addEventListener("click", async () => {
     output.innerHTML = "<p>⚠ Something went wrong.</p>";
   }
 });
+const generateBtn = document.getElementById('generateBtn');
+const topicInput = document.getElementById('topicInput');
+const output = document.getElementById('output');
+
+generateBtn.addEventListener('click', async () => {
+  const topic = topicInput.value;
+  const response = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ topic })
+  });
+  const data = await response.json();
+  output.innerText = data.content; // <- shows the AI text
+});
