@@ -1,0 +1,9 @@
+api
+   verifyPayment.js
+   generate.js
+   create-order.js
+   capture-order.js
+/index.html
+/script.js
+/style.css
+/README.md
