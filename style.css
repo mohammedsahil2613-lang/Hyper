@@ -1,81 +1,60 @@
 body {
-margin: 0;
-font-family: 'Orbitron', sans-serif;
-background: radial-gradient(circle at top left, #0d0d0d, #111111 80%);
-color: #fff;
-display: flex;
-flex-direction: column;
-min-height: 100vh;
-overflow-x: hidden;
-}
-
-header {
-text-align: center;
-padding: 30px 20px;
-color: #00fff7;
-text-shadow: 0 0 10px #00fff7;
+  margin: 0;
+  font-family: 'Orbitron', sans-serif;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 .container {
-flex: 1;
-max-width: 720px;
-margin: 40px auto;
-padding: 25px;
-perspective: 1500px;
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px #00f0ff, 0 0 100px #ff00ff inset;
 }
 
-input, textarea {
-width: 100%;
-padding: 12px;
-margin-bottom: 15px;
-border-radius: 12px;
-border: none;
-background: rgba(255,255,255,0.05);
-color: #00fff7;
-font-size: 16px;
+input {
+  display: block;
+  width: 80%;
+  margin: 10px auto;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  text-align: center;
 }
-
-input::placeholder, textarea::placeholder { color: #00d9e0; }
 
 button {
-width: 100%;
-padding: 16px;
-font-size: 18px;
-font-weight: bold;
-color: #fff;
-background: linear-gradient(45deg, #ff00ff, #00ffff);
-border: none;
-border-radius: 15px;
-cursor: pointer;
-box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
-transition: all 0.3s ease;
+  margin: 10px;
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg,#00f0ff,#ff00ff);
+  color: #000;
+  font-weight: bold;
+  transition: all 0.3s ease;
 }
 
 button:hover {
-transform: translateY(-3px) rotateX(5deg);
-box-shadow: 0 0 30px #ff00ff, 0 0 60px #00ffff;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #00f0ff, 0 0 60px #ff00ff inset;
 }
 
-.output {
-margin-top: 25px;
-min-height: 150px;
-background: rgba(0,0,0,0.25);
-border-radius: 20px;
-padding: 20px;
-box-shadow: 0 0 20px #00fff7 inset;
-font-size: 16px;
-transform-style: preserve-3d;
-}
-
-.paypal-btn {
-margin-top: 20px;
-}
-
-footer {
-text-align: center;
-padding: 15px;
-background: rgba(0,0,0,0.2);
-color: #00d9e0;
-font-size: 14px;
-text-shadow: 0 0 5px #00d9e0;
+.output-card {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 20px #0ff, 0 0 40px #f0f inset;
+  font-size: 1.1rem;
+  text-align: center;
 }
