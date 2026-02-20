@@ -48,3 +48,11 @@ generateBtn.addEventListener("click", async () => {
 paypalBtn.addEventListener("click", () => {
   alert("Redirect to PayPal flow (demo)!");
 });
+if(userKey === FREE_USER_KEY) {
+  // fetch real AI content
+  response = await fetch("/api/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
+}
