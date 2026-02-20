@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hyper-Niche AI Tool</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hyper-Niche AI Tool</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.paypal.com/sdk/js?client-id=AabN5GZxSoXSSf2SclK4GJSi_VkKwf0EoeFs8-3Dzy6eKakZdgEFFeJdePpt0_aMkF0V6wyXr1y2orNi&currency=USD" defer></script>
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <h1>Hyper-Niche AI Tool</h1>
-  <p>Generate your content instantly. Pay & get results automatically.</p>
+  <header>
+    <h1>Hyper-Niche AI Tool</h1>
+    <p>Generate content instantly & pay automatically.</p>
+  </header>
 
-  <!-- PayPal Button -->
-  <div id="paypal-button-container"></div>
+  <main>
+    <textarea id="contentInput" placeholder="Type your prompt here"></textarea>
+    <button id="generateBtn">Generate Content</button>
+    <div id="output"></div>
 
-  <!-- AI Tool Container -->
-  <div id="tool-container" style="display:none;">
-    <textarea id="prompt" placeholder="Enter your niche topic..."></textarea>
-    <button id="generate-btn">Generate Content</button>
-    <div id="result"></div>
-  </div>
+    <div id="paypal-button-container"></div>
+  </main>
 
-<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=USD"></script>
-<script src="script.js"></script>
+  <footer>
+    <p>&copy; 2026 Mohammed Sahil. All rights reserved.</p>
+  </footer>
 </body>
 </html>
