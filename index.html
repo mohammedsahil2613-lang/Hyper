@@ -2,46 +2,130 @@
 <html>
 <head>
   <title>Hyper-Niche AI Tool</title>
+  <!-- Premium futuristic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Orbitron', sans-serif; background: #0a0a0a; color: #f5f5f5; max-width: 900px; margin: auto; padding: 20px; }
+    h1 { text-align: center; font-size: 3em; color: #00f; text-shadow: 2px 2px 10px #0ff; }
+    input { padding: 12px; width: 100%; font-size: 18px; margin: 10px 0; border-radius: 8px; border: none; background: #111; color: #fff; }
+    button { padding: 12px; font-size: 18px; border-radius: 8px; border: none; cursor: pointer; margin: 5px 0; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+    #generateBtn { background: linear-gradient(45deg, #00f, #0ff); color: #000; font-weight: bold; }
+    #demoBtn { background: #111; color: #0ff; border: 2px solid #0ff; }
+    #paypalBtn, #applePayBtn { background: #fff; display: flex; align-items: center; justify-content: center; gap: 10px; color: #000; font-weight: bold; border-radius: 8px; padding: 10px; }
+    #paypalBtn img, #applePayBtn img { height: 24px; }
+    #output { border: 1px solid #0ff; padding: 20px; min-height: 150px; margin-top: 15px; border-radius: 10px; background: #111; overflow-wrap: break-word; }
+    .payment-section { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    #adminUnlock { position: fixed; bottom: 10px; right: 10px; background: #000; color: #0ff; font-size: 12px; padding: 5px 8px; border-radius: 5px; cursor: pointer; opacity: 0.3; transition: opacity 0.3s; }
+    #adminUnlock:hover { opacity: 1; }
+    #hiddenAdminInput { display: none; padding: 5px; border-radius: 5px; border: none; font-size: 14px; margin-top: 5px; }
+    #copyBtn { margin-top: 10px; padding: 10px; background: #0ff; color: #000; font-weight: bold; border-radius: 8px; cursor: pointer; }
+  </style>
 </head>
 <body>
   <h1>Hyper-Niche AI Tool</h1>
-  <p>Create futuristic viral content instantly & pay automatically!</p>
+  <p style="text-align:center; font-size:1.2em;">Create futuristic viral content instantly & pay per content ($1)</p>
 
-  <!-- Topic input -->
+  <!-- Topic Input -->
   <input type="text" id="topicInput" placeholder="Enter niche/topic" />
-
-  <!-- AI button -->
   <button id="generateBtn">Generate Content</button>
+  <button id="demoBtn">Demo Content</button>
 
-  <!-- Output area -->
-  <div id="output">✨</div>
+  <!-- Output -->
+  <div id="output">Your content will appear here...</div>
+  <button id="copyBtn">Copy Content</button>
 
-  <!-- PayPal button -->
-  <button id="paypalBtn">Pay with PayPal</button>
+  <!-- Payment Buttons -->
+  <div class="payment-section">
+    <button id="paypalBtn">
+      <img src="https://www.paypalobjects.com/webstatic/icon/pp258.png" alt="PayPal" /> Pay with PayPal
+    </button>
+    <button id="applePayBtn">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" alt="Apple Pay" /> Apple Pay
+    </button>
+  </div>
 
-  <script>
+  <!-- Hidden Admin Unlock -->
+  <div id="adminUnlock">💡</div>
+  <input type="text" id="hiddenAdminInput" placeholder="Enter admin code" />
+
+  <script type="module">
     const generateBtn = document.getElementById('generateBtn');
+    const demoBtn = document.getElementById('demoBtn');
     const topicInput = document.getElementById('topicInput');
     const output = document.getElementById('output');
     const paypalBtn = document.getElementById('paypalBtn');
+    const applePayBtn = document.getElementById('applePayBtn');
+    const adminUnlockBtn = document.getElementById('adminUnlock');
+    const hiddenAdminInput = document.getElementById('hiddenAdminInput');
+    const copyBtn = document.getElementById('copyBtn');
 
-    // AI button: calls your /api/generate
-    generateBtn.addEventListener('click', async () => {
-      const topic = topicInput.value;
-      const response = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic })
-      });
-      const data = await response.json();
-      output.innerText = data.content; // shows AI content
+    const ADMIN_CODE = "sahil599";
+    let paidForCurrent = false;
+    let adminUnlocked = false;
+
+    async function generateContent(topic) {
+      if(!topic) return alert("Enter a topic first!");
+      if(!paidForCurrent && !adminUnlocked) return alert("Please pay $1 first!");
+      
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic })
+        });
+        const data = await res.json();
+        output.innerText = data.content;
+        paidForCurrent = false;
+        adminUnlocked = false;
+      } catch(err) {
+        output.innerText = "Error generating content. Check API key!";
+        console.error(err);
+      }
+    }
+
+    generateBtn.addEventListener('click', () => generateContent(topicInput.value));
+
+    demoBtn.addEventListener('click', () => generateContent("Top trending AI tools for content marketing 2026"));
+
+    paypalBtn.addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/create-order', { method: 'POST' });
+        const data = await res.json();
+        alert(`PayPal Order Created! OrderID: ${data.orderID}`);
+        paidForCurrent = true;
+      } catch(err) {
+        alert("PayPal error! Check your API.");
+        console.error(err);
+      }
     });
 
-    // PayPal button (sandbox)
-    paypalBtn.addEventListener('click', async () => {
-      const res = await fetch('/api/create-order', { method: 'POST' });
-      const data = await res.json();
-      alert(`Sandbox Order Created!\nOrderID: ${data.orderID}`);
+    applePayBtn.addEventListener('click', () => paypalBtn.click());
+
+    // Admin unlock toggle
+    adminUnlockBtn.addEventListener('click', () => {
+      hiddenAdminInput.style.display = hiddenAdminInput.style.display === 'none' ? 'inline-block' : 'none';
+      hiddenAdminInput.focus();
+    });
+
+    hiddenAdminInput.addEventListener('keydown', (e) => {
+      if(e.key === "Enter") {
+        if(hiddenAdminInput.value === ADMIN_CODE) {
+          adminUnlocked = true;
+          alert("Admin access granted! Free content unlocked.");
+          hiddenAdminInput.value = "";
+          hiddenAdminInput.style.display = 'none';
+        } else {
+          alert("Wrong code!");
+        }
+      }
+    });
+
+    // Copy content button
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(output.innerText).then(() => {
+        alert("Content copied!");
+      });
     });
   </script>
 </body>
