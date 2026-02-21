@@ -1,55 +1,30 @@
-const FREE_USER_KEY = "mohammedsahil2026";
+import OpenAI from "openai";
 
-generateBtn.addEventListener("click", async () => {
-  const userKey = keyInput.value.trim();
-  const prompt = promptInput.value.trim();
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  if (!prompt) {
-    output.innerHTML = "<p>⚠ Please enter a topic!</p>";
-    return;
-  }
-
-  output.innerHTML = "<p>Generating futuristic content...</p>";
-
+export default async function handler(req, res) {
   try {
-    let response;
+    const { topic } = req.body;
+    if (!topic) return res.status(400).json({ content: "No topic provided." });
 
-    // ---- FREE KEY LOGIC ----
-    if(userKey === FREE_USER_KEY) {
-      // Call your existing serverless function (generate.js)
-      response = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-    } else {
-      // ---- PAID FLOW (no changes) ----
-      response = await fetch("/api/verifyPayment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
-      });
-    }
+    const prompt = `
+      You are a premium AI content generator.
+      Generate a unique, viral, futuristic, hype content for the topic: "${topic}".
+      Structure: Headline, Hook, Body, Call to Action.
+      Tone: Premium, futuristic, engaging, hype.
+      Never repeat previous content exactly. Make it realistic, useful, and impress the user.
+    `;
 
-    const data = await response.json();
-    output.innerHTML = `<div class="output-card">✨ ${data.result}</div>`;
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.9
+    });
 
-  } catch(err) {
+    const content = completion.choices[0].message.content;
+    res.status(200).json({ content });
+  } catch (err) {
     console.error(err);
-    output.innerHTML = "<p>⚠ Something went wrong.</p>";
+    res.status(500).json({ content: "AI generation error!" });
   }
-});
-const generateBtn = document.getElementById('generateBtn');
-const topicInput = document.getElementById('topicInput');
-const output = document.getElementById('output');
-
-generateBtn.addEventListener('click', async () => {
-  const topic = topicInput.value;
-  const response = await fetch('/api/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topic })
-  });
-  const data = await response.json();
-  output.innerText = data.content; // <- shows the AI text
-});
+}
