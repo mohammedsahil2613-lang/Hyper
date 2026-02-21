@@ -1,30 +1,44 @@
-import OpenAI from "openai";
+const topicInput = document.getElementById('topic');
+const generateBtn = document.getElementById('generateBtn');
+const demoBtn = document.getElementById('demoBtn');
+const output = document.getElementById('output');
+const copyBtn = document.getElementById('copyBtn');
+const freeCode = document.getElementById('freeCode');
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let freeAccess = false;
 
-export default async function handler(req, res) {
-  try {
-    const { topic } = req.body;
-    if (!topic) return res.status(400).json({ content: "No topic provided." });
+// hidden admin code
+freeCode.addEventListener('click', () => {
+  const code = prompt("Enter admin code:");
+  if(code === 'sahil599') freeAccess = true;
+});
 
-    const prompt = `
-      You are a premium AI content generator.
-      Generate a unique, viral, futuristic, hype content for the topic: "${topic}".
-      Structure: Headline, Hook, Body, Call to Action.
-      Tone: Premium, futuristic, engaging, hype.
-      Never repeat previous content exactly. Make it realistic, useful, and impress the user.
-    `;
+// Generate content
+generateBtn.addEventListener('click', async () => {
+  if(!topicInput.value) { alert('Enter topic'); return; }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      temperature: 0.9
-    });
-
-    const content = completion.choices[0].message.content;
-    res.status(200).json({ content });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ content: "AI generation error!" });
+  if(!freeAccess) {
+    alert('Please pay $1 to generate content');
+    return;
   }
-}
+
+  output.textContent = 'Generating...';
+  const res = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ topic: topicInput.value })
+  });
+  const data = await res.json();
+  output.textContent = data.content;
+});
+
+// Demo content
+demoBtn.addEventListener('click', () => {
+  output.textContent = 'This is a demo futuristic content for clients.';
+});
+
+// Copy content
+copyBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(output.textContent);
+  alert('Copied!');
+});
