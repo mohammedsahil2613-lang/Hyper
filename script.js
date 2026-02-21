@@ -1,4 +1,5 @@
-const topicInput = document.getElementById('topic');
+// --- Fixed script.js ---
+const topicInput = document.getElementById('topicInput'); // make sure input has id="topicInput"
 const generateBtn = document.getElementById('generateBtn');
 const demoBtn = document.getElementById('demoBtn');
 const output = document.getElementById('output');
@@ -7,10 +8,15 @@ const freeCode = document.getElementById('freeCode');
 
 let freeAccess = false;
 
-// hidden admin code
+// Hidden admin code
 freeCode.addEventListener('click', () => {
   const code = prompt("Enter admin code:");
-  if(code === 'sahil599') freeAccess = true;
+  if(code === 'sahil599') {
+    freeAccess = true;
+    alert('Admin code accepted! Free access unlocked.');
+  } else {
+    alert('Wrong code');
+  }
 });
 
 // Generate content
@@ -23,13 +29,18 @@ generateBtn.addEventListener('click', async () => {
   }
 
   output.textContent = 'Generating...';
-  const res = await fetch('/api/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topic: topicInput.value })
-  });
-  const data = await res.json();
-  output.textContent = data.content;
+  try {
+    const res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: topicInput.value })
+    });
+    const data = await res.json();
+    output.textContent = data.content || 'No content returned';
+  } catch(err) {
+    output.textContent = 'Error generating content';
+    console.error(err);
+  }
 });
 
 // Demo content
