@@ -1,14 +1,15 @@
-// --- Fixed script.js ---
-const topicInput = document.getElementById('topicInput'); // make sure input has id="topicInput"
+// --- script.js ---
+const topicInput = document.getElementById('topicInput');
 const generateBtn = document.getElementById('generateBtn');
 const demoBtn = document.getElementById('demoBtn');
 const output = document.getElementById('output');
 const copyBtn = document.getElementById('copyBtn');
 const freeCode = document.getElementById('freeCode');
+const paypalBtn = document.getElementById('paypalBtn');
 
 let freeAccess = false;
 
-// Hidden admin code
+// Admin free code
 freeCode.addEventListener('click', () => {
   const code = prompt("Enter admin code:");
   if(code === 'sahil599') {
@@ -52,4 +53,21 @@ demoBtn.addEventListener('click', () => {
 copyBtn.addEventListener('click', () => {
   navigator.clipboard.writeText(output.textContent);
   alert('Copied!');
+});
+
+// PayPal payment for clients
+paypalBtn.addEventListener('click', async () => {
+  try {
+    const res = await fetch('/api/create-order', { method: 'POST' });
+    const data = await res.json();
+    if(data.id) {
+      // Redirect client to PayPal checkout page
+      window.location.href = `https://www.sandbox.paypal.com/checkoutnow?token=${data.id}`;
+    } else {
+      alert('Failed to create PayPal order');
+    }
+  } catch(err) {
+    console.error(err);
+    alert('Error processing payment');
+  }
 });
